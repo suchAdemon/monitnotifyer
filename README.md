@@ -11,7 +11,7 @@ apt install git
 ```
 Create a local account which will be used to converte the mails coming from monit
 ```bash
-useradd -d /tmp/monit monitnotify
+useradd -d /home/monit monitnotify
 ```
 
 ### Clone reposiroty
@@ -35,6 +35,7 @@ If everything is fine, you can just enable it
 ```bash
 systemctl enable monitnotify.service
 ```
+
 
 ## Usage
 
@@ -68,10 +69,12 @@ DEADJOE
 /test*
 ```
 
+
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
+
 
 ## License
 [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0)
