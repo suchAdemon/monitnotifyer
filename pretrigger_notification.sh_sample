@@ -1,0 +1,9 @@
+#!/bin/bash
+
+mservicename="${1}"
+mserviceaction="${2}"
+mservicestatus="${3}"
+mservicedesc="${4}"
+mservicehost="${5}"
+
+/home/myuser/mynotiicationscript.sh -d mydevice -t "[${mserviceaction}] ${mservicestatus} on ${mservicename}" "${mservicedesc}" &

@@ -1,0 +1,18 @@
+[Unit]
+Description=Monit mail notify wrapper
+Documentation=https://gitea.sons-of-sparda.at/oliver.schraml/monitnotifyer
+Before=monit.service
+
+[Service]
+User=yourmonitoringmailuser
+Group=yourmonitoringmailuser
+Type=simple
+ExecStart=/home/yourmonitoringmailuser/monitnotifyer/monitnotifyer.sh
+ExecReload=/bin/kill -HUP $MAINPID
+ExecStop=/bin/kill -HUP $MAINPID
+KillMode=process
+StandardOutput=null
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
