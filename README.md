@@ -1,5 +1,18 @@
 # monitnotifyer
 
+Monit as we all know, is sending by default messages via mail. Somtimes it enough to have that as alerting, but sometimes not.
+
+Of course you can run a script with 'if failed something-service1 then exec /data/monit/script/service1.sh', but the problem is that you get no data from the script call, meaning not if it went down/up/or what else or any other details and normally you dont want to specify for every monitored object a script, which is than again checking your service/script/output/stat/... to have the right information for sending a notification.
+
+As I use a different notification service for alert/recoveryie messages, it did not fit for me a 100%.
+
+Now there comes monitnotifyer. This script is listening with inotifywait on a local mailbox directly on the server which is getting monitored and everytime when monit triggers an alert, the mail arrivers in that local mailbox.
+
+It parses out the needed informaionts given from the mail and brings them in a structured way so that they can be handed over to a different script as parameters and than its up to your script to do with the information what ever you want to do.
+
+For example, you can than forwarding an alert to a pushservice provider, sms service provider and via mail to get notify everyone who needs to get notified.
+
+Long story short:
 monitnotifyer is a wrapper which allows you to parse the monit mail notifications and forwards them to any application you want
 
 ## Installation
@@ -12,6 +25,23 @@ apt install git
 Create a local account which will be used to converte the mails coming from monit
 ```bash
 useradd -d /home/monit monitnotify
+```
+
+### Configure monit mail
+For that you have to modify the /etc/monitrc, or some other file depends on where you have specified the mail setup for monit, like this:
+```bash
+ set mailserver localhost
+
+ set mail-format {
+   from:    Monit <monit@localhost|or_real_hostname>
+   subject:Monit-Message:$EVENT:$SERVICE
+   message: Monit-Date:$DATE
+Monit-Action:$ACTION
+Monit-Host:$HOST
+Monit-Description:$DESCRIPTION
+ }
+
+ set alert monitnotify@<localhost|or_real_hostname> not on { instance, action }
 ```
 
 ### Clone reposiroty
