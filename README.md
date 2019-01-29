@@ -71,9 +71,12 @@ systemctl enable monitnotify.service
 
 ### Help
 ```bash
-monitnotifyer.sh [-hd]
+monitnotifyer.sh [-h] [-(d|D)] [-a (start|stop)]
   -h        will show you this help message
   -d        will run the script in debug mode (output to stdout)
+  -D        will disable the debug mode
+  -a        (default start) Can be set manually only to start or stop
+            for starting or stopping the script
 ```
 
 ### Debuging
@@ -97,6 +100,7 @@ DEADJOE
 /pretrigger_notification.sh
 /monitnotify.service
 /test*
+/*.log
 ```
 
 
