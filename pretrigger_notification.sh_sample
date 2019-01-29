@@ -1,9 +1,23 @@
 #!/bin/bash
+dateformat="%d.%m.%Y %H:%M:%S"
+enabledebug=${1}
+debugfile="${2}"
+mservicename="${3}"
+mserviceaction="${4}"
+mservicestatus="${5}"
+mservicedesc="${6}"
+mservicehost="${7}"
 
-mservicename="${1}"
-mserviceaction="${2}"
-mservicestatus="${3}"
-mservicedesc="${4}"
-mservicehost="${5}"
+monitnotifyerpretriggeroutput() {
+    if [ ${enabledebug} == true ]; then
+        /bin/echo "$(date +"${dateformat}") - [PRETRIGGER_NOTIFICATION] - ${1}" >> "${debugfile}"
+    fi
+}
 
-/home/myuser/mynotiicationscript.sh -d mydevice -t "[${mserviceaction}] ${mservicestatus} on ${mservicename}" "${mservicedesc}" &
+if [[ "${mservicestatus}" == *"succe"*  ]] || [[ "${mservicestatus}" == "Exists" ]] ; then
+	monitnotifyerpretriggeroutput "OK/RECOVERY message detected" &
+    /home/myuser/mynotiicationscript.sh --status OK --device mydevice --title "[${mserviceaction}] ${mservicestatus} on ${mservicename}" --application monitoring "${mservicedesc}" &
+else
+	monitnotifyerpretriggeroutput "WARNING/CRITICAL/UNKNOWN message detected" &
+    /home/myuser/mynotiicationscript.sh --status CTIR --device mydevice --title "[${mserviceaction}] ${mservicestatus} on ${mservicename}" --application monitoring "${mservicedesc}" &
+fi
