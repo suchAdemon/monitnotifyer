@@ -4,6 +4,5 @@
 \#*\#
 DEADJOE
 
-/pretrigger_notification.sh
-/monitnotify.service
 /test*
+/*.log
